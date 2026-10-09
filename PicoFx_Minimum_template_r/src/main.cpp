@@ -39,6 +39,9 @@ void setup()
 //
 // スイッチやLEDなどの処理はloop関数で行います
 //
+
+float ratio = 1.0;
+
 void loop()
 {
   btn[0].loop();
@@ -53,13 +56,12 @@ void loop()
   btn[1].loop();
   if (btn[1].isReleased())
   {
-  }
+    ratio += 0.1;
+    if (ratio > 1.0)
+      ratio = 0;
+ }
 
-  btn[2].loop();
-  if (btn[2].isReleased())
-  {
-  }
-  delay(100);
+ delay(100);
 }
 //
 // setup1はCore1で動作する関数です
@@ -85,4 +87,6 @@ void __not_in_flash_func(AUDIO_CALLBACK_CORE_1)(AudioSample &sample)
 {
   // sample.L/sample.Rに対してここで何か音声処理します。
   // sampleは参照なのでL/Rへ値を代入してください。
+  sample.L *= ratio;
+  sample.R *= ratio;
 }
